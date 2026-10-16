@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$title|default='内部维护后台'}</title>
+<link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css">
+<style>
+body { background:#f4f6f8; }
+.internal-nav { margin-bottom:18px; }
+.internal-main { padding:0 18px 30px; }
+.panel { border-radius:4px; }
+table td, table th { word-break:break-all; }
+.form-inline .form-group { margin-right:8px; }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-inverse internal-nav">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/internal/index/index">内部维护后台</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/internal/ai_config/index">AI配置</a></li>
+        <li><a href="/internal/supplier_config/index">供应商配置</a></li>
+        <li><a href="/internal/media_sync/index">媒体同步</a></li>
+        <li><a href="/internal/company/index">企业状态</a></li>
+        <li><a href="/internal/wallet/index">测试余额</a></li>
+        <li><a href="/internal/job/index">失败任务</a></li>
+        <li><a href="/internal/order/index">异常订单</a></li>
+        <li><a href="/internal/audit/index">审计</a></li>
+        <li><a href="/internal/log/index">日志</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<main class="container-fluid internal-main">

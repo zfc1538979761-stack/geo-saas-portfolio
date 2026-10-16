@@ -1,0 +1,47 @@
+{include file="common/header" /}
+<div class="alert alert-info">测试余额调整当前：{$manual_adjust_enabled ? '启用' : '禁用'}</div>
+<div class="panel panel-default">
+  <div class="panel-heading">企业余额</div>
+  <table class="table table-bordered">
+    <thead><tr><th>企业ID</th><th>名称</th><th>状态</th><th>可用余额</th><th>冻结余额</th><th>币种</th></tr></thead>
+    <tbody>
+    {volist name="result" id="wallet"}
+      <tr>
+        <td>{$wallet.company_id}</td><td>{$wallet.company_name}</td><td>{$wallet.company_status}</td>
+        <td>{$wallet.available_balance|default='0.00'}</td><td>{$wallet.frozen_balance|default='0.00'}</td><td>{$wallet.currency|default='CNY'}</td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">调增</div>
+      <form method="post" action="/internal/wallet/credit" onsubmit="return confirm('确认调增测试余额？')">
+        <input type="hidden" name="confirm" value="1">
+        {:token()}
+        <div class="form-group"><label>企业ID</label><input class="form-control" type="number" name="company_id" required min="1"></div>
+        <div class="form-group"><label>金额</label><input class="form-control" name="amount" required pattern="\d+(\.\d{1,2})?"></div>
+        <div class="form-group"><label>幂等键</label><input class="form-control" name="idempotency_key" required maxlength="191"></div>
+        <div class="form-group"><label>原因</label><textarea class="form-control" name="reason" required rows="2"></textarea></div>
+        <button class="btn btn-success" type="submit">调增</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">调减</div>
+      <form method="post" action="/internal/wallet/debit" onsubmit="return confirm('确认调减测试余额？')">
+        <input type="hidden" name="confirm" value="1">
+        {:token()}
+        <div class="form-group"><label>企业ID</label><input class="form-control" type="number" name="company_id" required min="1"></div>
+        <div class="form-group"><label>金额</label><input class="form-control" name="amount" required pattern="\d+(\.\d{1,2})?"></div>
+        <div class="form-group"><label>幂等键</label><input class="form-control" name="idempotency_key" required maxlength="191"></div>
+        <div class="form-group"><label>原因</label><textarea class="form-control" name="reason" required rows="2"></textarea></div>
+        <button class="btn btn-warning" type="submit">调减</button>
+      </form>
+    </div>
+  </div>
+</div>
+{include file="common/footer" /}

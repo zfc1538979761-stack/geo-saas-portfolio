@@ -1,0 +1,22 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">运行日志文件</div>
+  <table class="table table-bordered">
+    <thead><tr><th>文件</th><th>大小</th><th>更新时间</th><th>操作</th></tr></thead>
+    <tbody>
+    {volist name="files" id="file"}
+      <tr>
+        <td>{$file.name}</td><td>{$file.size}</td><td>{$file.updated_at}</td>
+        <td>
+          <form method="post" action="/internal/log/show">
+            {:token()}
+            <input type="hidden" name="file" value="{$file.name}">
+            <button class="btn btn-default btn-sm" type="submit">查看尾部</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}

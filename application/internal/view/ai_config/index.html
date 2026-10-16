@@ -1,0 +1,47 @@
+{include file="common/header" /}
+<div class="row">
+  <div class="col-md-7">
+    <div class="panel panel-default">
+      <div class="panel-heading">AI 配置状态</div>
+      <div class="panel-body">
+        <p>运行时 Provider：{$runtime.provider|default='-'}</p>
+        <p>环境：{$runtime.environment|default='-'}</p>
+        <p>模型：{$runtime.ark.model_name|default='-'}</p>
+        <p>Endpoint：{$runtime.ark.endpoint_id|default='-'}</p>
+        <p>API Key：{$status.fields.api_key.masked|default='-'}</p>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">替换 API Key（不回显旧值）</div>
+      <div class="panel-body">
+        <form method="post" action="/internal/ai_config/replace" onsubmit="return confirm('确认替换 AI API Key？')">
+          <input type="hidden" name="confirm" value="1">
+          {:token()}
+          <div class="form-group">
+            <label>新 API Key</label>
+            <input class="form-control" type="password" name="api_key" required maxlength="4096">
+          </div>
+          <div class="form-group">
+            <label>原因</label>
+            <textarea class="form-control" name="reason" required rows="2"></textarea>
+          </div>
+          <button class="btn btn-danger" type="submit">替换</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Provider 注册状态</div>
+      <table class="table table-bordered">
+        <thead><tr><th>Code</th><th>名称</th><th>状态</th></tr></thead>
+        <tbody>
+        {volist name="providers" id="provider"}
+          <tr><td>{$provider.code}</td><td>{$provider.display_name}</td><td>{$provider.status}</td></tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{include file="common/footer" /}

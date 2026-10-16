@@ -1,0 +1,20 @@
+<?php
+require __DIR__.'/bootstrap.php';
+use app\common\portfolio\PortfolioWorkflow;
+check(class_exists(PortfolioWorkflow::class),'Portfolio workflow implemented');
+require PORTFOLIO_ROOT.'scripts/portfolio-bootstrap.php';
+$pdo=portfolio_pdo();
+$workflow=new PortfolioWorkflow();
+$first=$workflow->run($pdo);$second=$workflow->run($pdo);
+check($first==$second,'workflow replay is idempotent');
+check($first['published_status']==='published','mock submission and synchronization reach published');
+check($first['rejected_status']==='rejected','mock rejection reaches terminal state');
+check($first['baseline_at']<$first['published_at'],'Baseline precedes actual local publication event');
+check($first['trend']==='up','demo comparison detects a visible status improvement');
+check($first['suggestion_id']>0,'optimization directions generated');
+check($first['cross_tenant_rejected'],'cross-tenant article access rejected');
+check($first['invalid_baseline_rejected'],'post-publication Baseline dimensions rejected');
+check($first['insufficient_balance_rejected'],'insufficient balance rejected');
+check($first['duplicate_capture_unchanged'],'duplicate published event does not charge again');
+check($first['rejection_restored_balance'],'rejection releases frozen balance');
+check($first['provider_mode']==='local_mock','demo workflow declares local mock adapters (not network telemetry)');

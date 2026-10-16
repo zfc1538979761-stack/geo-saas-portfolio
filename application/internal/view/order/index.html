@@ -1,0 +1,30 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">需要人工处理的异常订单</div>
+  <table class="table table-bordered">
+    <thead><tr><th>ID</th><th>订单号</th><th>企业</th><th>金额</th><th>冻结</th><th>更新时间</th><th>补偿操作</th></tr></thead>
+    <tbody>
+    {volist name="result.items" id="order"}
+      <tr>
+        <td>{$order.id}</td><td>{$order.order_no}</td><td>{$order.company_name|default='-'}</td>
+        <td>{$order.total_amount}</td><td>{$order.frozen_amount}</td><td>{$order.updated_at}</td>
+        <td>
+          <form method="post" action="/internal/order/reprocess" class="form-inline" onsubmit="return confirm('确认执行订单补偿？')">
+            <input type="hidden" name="confirm" value="1">
+            {:token()}
+            <input type="hidden" name="order_id" value="{$order.id}">
+            <select class="form-control" name="action">
+              <option value="sync">同步</option>
+              <option value="submit">提交</option>
+              <option value="cancel">取消</option>
+            </select>
+            <input class="form-control" type="text" name="reason" placeholder="原因" required>
+            <button class="btn btn-warning btn-sm" type="submit">执行</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}

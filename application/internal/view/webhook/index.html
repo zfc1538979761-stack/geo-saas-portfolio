@@ -1,0 +1,26 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">持久化回调</div>
+  <table class="table table-bordered">
+    <thead><tr><th>ID</th><th>企业</th><th>供应商</th><th>事件</th><th>状态</th><th>处理结果</th><th>错误</th><th>接收时间</th><th>操作</th></tr></thead>
+    <tbody>
+    {volist name="result.items" id="event"}
+      <tr>
+        <td>{$event.id}</td><td>{$event.company_id}</td><td>{$event.supplier_code}</td>
+        <td>{$event.event_id}</td><td>{$event.status}</td><td>{$event.processing_result|default='-'}</td>
+        <td>{$event.processing_error|default='-'}</td><td>{$event.received_at}</td>
+        <td>
+          <form method="post" action="/internal/webhook/replay" onsubmit="return confirm('确认重放该回调？')">
+            <input type="hidden" name="confirm" value="1">
+            {:token()}
+            <input type="hidden" name="webhook_id" value="{$event.id}">
+            <input class="form-control" type="text" name="reason" placeholder="原因" required>
+            <button class="btn btn-danger btn-sm" type="submit">重放</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}

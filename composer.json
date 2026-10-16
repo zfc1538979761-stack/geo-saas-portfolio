@@ -1,0 +1,57 @@
+{
+    "name": "fastadminnet/fastadmin",
+    "description": "the fastest admin framework",
+    "type": "project",
+    "keywords": [
+        "fastadmin",
+        "thinkphp"
+    ],
+    "homepage": "https://www.fastadmin.net/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Karson",
+            "email": "karson@fastadmin.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "topthink/framework": "dev-master",
+        "topthink/think-captcha": "^1.0.9",
+        "topthink/think-installer": "^1.0.14",
+        "topthink/think-queue": "1.1.6",
+        "topthink/think-helper": "^1.0.7",
+        "fastadminnet/fastadmin-addons": "~1.4.3",
+        "fastadminnet/fastadmin-mailer": "^2.1.1",
+        "overtrue/pinyin": "^3.0",
+        "phpoffice/phpspreadsheet": "^1.29.11",
+        "overtrue/wechat": "^5.36.3",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "ext-bcmath": "*",
+        "composer/ca-bundle": "^1.5"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "topthink/think-installer": true,
+            "easywechat-composer/easywechat-composer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "addons\\": "addons/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://gitee.com/fastadminnet/framework.git"
+        },
+        {
+            "type": "git",
+            "url": "https://gitee.com/fastadminnet/think-captcha.git"
+        }
+    ]
+}

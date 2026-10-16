@@ -1,0 +1,42 @@
+{include file="common/header" /}
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">同步状态</div>
+      <div class="panel-body">
+        <p>Supplier ID：{$overview.supplier_id|default='-'}</p>
+        <p>最近同步时间：{$overview.last_sync_time|default='-'}</p>
+        <form method="post" action="/internal/media_sync/trigger" onsubmit="return confirm('确认触发媒体同步？')">
+          <input type="hidden" name="confirm" value="1">
+          {:token()}
+          <div class="form-group">
+            <label>同步类型</label>
+            <select class="form-control" name="type">
+              <option value="full">full</option>
+              <option value="incremental">incremental</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>原因</label>
+            <textarea class="form-control" name="reason" required rows="2"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">触发同步</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">最近同步任务</div>
+      <table class="table table-bordered">
+        <thead><tr><th>Task</th><th>状态</th><th>创建时间</th><th>更新时间</th></tr></thead>
+        <tbody>
+        {volist name="overview.recent_tasks" id="task"}
+          <tr><td>{$task.task_id}</td><td>{$task.status}</td><td>{$task.created_at}</td><td>{$task.updated_at}</td></tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{include file="common/footer" /}

@@ -1,0 +1,82 @@
+{include file="common/header" /}
+<div class="row">
+  <div class="col-md-3 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-muted">整体状态</div>
+        <div class="h3" style="margin:4px 0 0">{$health.overall_status}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-muted">数据库</div>
+        <div class="h3" style="margin:4px 0 0">{$health.database.status}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-muted">Redis</div>
+        <div class="h3" style="margin:4px 0 0">{$health.redis.status}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-muted">AI/供应商</div>
+        <div class="h3" style="margin:4px 0 0">{$health.ai_provider.status} / {$health.supplier.status}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">队列与业务异常</div>
+  <table class="table table-bordered">
+    <tr>
+      <th>队列积压</th><td>{$health.queue.backlog}</td>
+      <th>失败任务</th><td>{$health.queue.failed}</td>
+      <th>重试耗尽</th><td>{$health.queue.max_attempts_reached}</td>
+    </tr>
+    <tr>
+      <th>订单停留</th><td>{$health.orders.stale_count}</td>
+      <th>人工处理</th><td>{$health.orders.manual_review_count}</td>
+      <th>财务异常</th><td>{$health.financial.anomaly_count}</td>
+    </tr>
+    <tr>
+      <th>磁盘可用</th><td>{$health.disk.free_bytes}</td>
+      <th>存储状态</th><td>{$health.storage.status}</td>
+      <th>最近备份</th><td>{$health.backup.last_status|default='-'}</td>
+    </tr>
+  </table>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">告警</div>
+  <table class="table table-bordered">
+    <thead><tr><th>规则</th><th>级别</th><th>状态</th><th>标题</th><th>次数</th><th>最近时间</th><th>操作</th></tr></thead>
+    <tbody>
+    {volist name="alerts.items" id="alert"}
+      <tr>
+        <td>{$alert.rule_key}</td><td>{$alert.severity}</td><td>{$alert.status}</td>
+        <td>{$alert.title}</td><td>{$alert.event_count}</td><td>{$alert.last_seen_at}</td>
+        <td>
+          <form method="post" action="/internal/monitor/ack" onsubmit="return confirm('确认处理该告警？')">
+            <input type="hidden" name="confirm" value="1">
+            {:token()}
+            <input type="hidden" name="id" value="{$alert.id}">
+            <input class="form-control" type="text" name="reason" placeholder="原因" required>
+            <button class="btn btn-warning btn-sm" type="submit">处理</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+<a class="btn btn-primary" href="/internal/monitor/check">立即执行健康检查</a>
+<a class="btn btn-default" href="/internal/monitor/alerts">全部告警</a>
+<a class="btn btn-default" href="/internal/webhook/index">回调重放</a>
+{include file="common/footer" /}

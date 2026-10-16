@@ -1,0 +1,29 @@
+{include file="common/header" /}
+<div class="row">
+  {volist name="summary" id="count" key="key"}
+  <div class="col-md-3 col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-muted">{$key}</div>
+        <div class="h3" style="margin:4px 0 0">{$count}</div>
+      </div>
+    </div>
+  </div>
+  {/volist}
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">入口</div>
+  <div class="panel-body">
+    <a class="btn btn-default" href="/internal/ai_config/index">AI配置状态</a>
+    <a class="btn btn-default" href="/internal/supplier_config/index">供应商配置状态</a>
+    <a class="btn btn-default" href="/internal/media_sync/index">媒体同步</a>
+    <a class="btn btn-default" href="/internal/company/index">企业状态</a>
+    <a class="btn btn-default" href="/internal/wallet/index">测试余额调整</a>
+    <a class="btn btn-default" href="/internal/job/index">失败任务</a>
+    <a class="btn btn-default" href="/internal/order/index">异常订单</a>
+    <a class="btn btn-default" href="/internal/audit/index">日志与审计</a>
+    <a class="btn btn-default" href="/internal/monitor/index">监控与告警</a>
+    <a class="btn btn-default" href="/internal/webhook/index">回调重放</a>
+  </div>
+</div>
+{include file="common/footer" /}

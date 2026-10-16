@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GEO Portfolio 工作台</title>
+    <link rel="stylesheet" href="/assets/css/enterprise.css?v=20260825v2">
+</head>
+<body>
+<main id="app">
+    <section id="login-view" class="login-view">
+        <div class="login-panel">
+            <div class="login-brand">
+                <span class="brand-mark" aria-hidden="true">GEO</span>
+                <div>
+                    <h1>GEO Portfolio 工作台</h1>
+                    <p>AI 内容生产与媒体发布演示 · 不调用真实付费服务</p>
+                </div>
+            </div>
+            <span class="status-badge demo">Portfolio Demo · 虚构数据</span>
+            <form id="login-form" autocomplete="on">
+            <p id="login-message" role="status" aria-live="polite"></p>
+            <label>账号
+                <input id="account" name="account" maxlength="191" autocomplete="username" required>
+            </label>
+            <label>密码
+                <input id="password" name="password" type="password" maxlength="72" autocomplete="current-password" required>
+            </label>
+            <button id="login-submit" type="submit">登录</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="workspace" hidden>
+        <header class="topbar">
+            <div class="topbar-brand">
+                <span class="brand-mark" aria-hidden="true">GEO</span>
+                <div>
+                    <h1>GEO Portfolio 工作台</h1>
+                    <p id="identity" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+            <div class="topbar-actions">
+                <span class="status-badge demo">Portfolio Demo · 虚构数据</span>
+                <button id="top-notifications-btn" type="button">通知 <span id="top-unread">0</span></button>
+                <button id="logout-btn" type="button">退出</button>
+            </div>
+        </header>
+
+        <div class="layout">
+            <nav id="nav" class="nav" aria-label="工作台导航">
+                <div class="nav-brand">
+                    <span class="brand-mark" aria-hidden="true">GEO</span>
+                    <div>
+                        <strong>企业工作台</strong>
+                        <small>Portfolio Demo · 虚构数据</small>
+                    </div>
+                </div>
+                <a href="#overview" data-view="overview">概览</a>
+                <a href="#profile" data-view="profile">企业资料</a>
+                <a href="#answers" data-view="answers">问题与答案</a>
+                <a href="#content" data-view="content">内容生产</a>
+                <a href="#media" data-view="media">媒体与发布</a>
+                <a href="#orders" data-view="orders">订单财务</a>
+                <a href="#geo" data-view="geo">GEO 优化</a>
+            </nav>
+
+            <main class="content">
+                <p id="message" class="page-message" role="status" aria-live="polite"></p>
+
+                <section id="view-overview" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h2>概览</h2>
+                            <p class="view-desc">虚构企业、模拟服务与演示余额；不代表实际经营数据</p>
+                        </div>
+                        <span class="status-badge demo">Portfolio Demo · 虚构数据</span>
+                    </div>
+                    <div class="overview-grid">
+                        <section class="panel overview-panel">
+                            <div class="panel-head">
+                                <h3>企业资料</h3>
+                                <a href="#profile" data-view="profile">完善资料</a>
+                            </div>
+                            <div class="profile-score">
+                                <strong id="overview-profile-score">--</strong>
+                                <span>完成度</span>
+                            </div>
+                            <div class="progress-track" aria-hidden="true">
+                                <span id="overview-profile-bar" class="progress-fill"></span>
+                            </div>
+                            <p id="overview-profile-missing" class="panel-note"></p>
+                        </section>
+                        <section class="panel overview-panel">
+                            <div class="panel-head">
+                                <h3>内容资产</h3>
+                                <a href="#answers" data-view="answers">管理内容</a>
+                            </div>
+                            <dl class="stat-list">
+                                <div>
+                                    <dt>关键词</dt>
+                                    <dd id="overview-keywords">--</dd>
+                                </div>
+                                <div>
+                                    <dt>问题</dt>
+                                    <dd id="overview-questions">--</dd>
+                                </div>
+                                <div>
+                                    <dt>知识素材</dt>
+                                    <dd id="overview-knowledge">--</dd>
+                                </div>
+                                <div>
+                                    <dt>文章</dt>
+                                    <dd id="overview-articles">--</dd>
+                                </div>
+                            </dl>
+                        </section>
+                        <section class="panel overview-panel">
+                            <div class="panel-head">
+                                <h3>经营状态</h3>
+                                <a href="#orders" data-view="orders">查看钱包</a>
+                            </div>
+                            <dl class="stat-list">
+                                <div>
+                                    <dt>可用余额</dt>
+                                    <dd id="overview-balance">--</dd>
+                                </div>
+                                <div>
+                                    <dt>冻结余额</dt>
+                                    <dd id="overview-frozen">--</dd>
+                                </div>
+                                <div>
+                                    <dt>订单</dt>
+                                    <dd id="overview-orders">--</dd>
+                                </div>
+                                <div>
+                                    <dt>未读通知</dt>
+                                    <dd id="overview-unread">--</dd>
+                                </div>
+                            </dl>
+                        </section>
+                        <section class="panel overview-panel">
+                            <div class="panel-head">
+                                <h3>媒体</h3>
+                                <a href="#media" data-view="media">筛选媒体</a>
+                            </div>
+                            <div class="metric-value">
+                                <strong id="overview-media">--</strong>
+                                <span>媒体总数</span>
+                            </div>
+                            <p id="overview-media-note" class="panel-note">媒体目录已同步</p>
+                        </section>
+                    </div>
+                    <div class="overview-secondary-grid">
+                        <section class="panel">
+                            <div class="panel-head">
+                                <h3>GEO 优化</h3>
+                                <a href="#geo" data-view="geo">进入时间线</a>
+                            </div>
+                            <dl class="stat-list">
+                                <div>
+                                    <dt>复检计划</dt>
+                                    <dd id="overview-geo-plan-count">--</dd>
+                                </div>
+                                <div>
+                                    <dt>下次复检</dt>
+                                    <dd id="overview-geo-next-run">--</dd>
+                                </div>
+                            </dl>
+                            <p class="panel-note">目标答案、发布前 Baseline、复检趋势在 GEO 优化页查看。</p>
+                        </section>
+                        <section class="panel">
+                            <div class="panel-head">
+                                <h3>AI 生成任务</h3>
+                                <a href="#content&tab=ai" data-view="content">前往任务页</a>
+                            </div>
+                            <div id="overview-ai-state" class="notice-empty">暂无最近任务记录</div>
+                        </section>
+                    </div>
+                    <div class="overview-secondary-grid">
+                        <section class="panel">
+                            <div class="panel-head">
+                                <h3>最近通知</h3>
+                                <a href="#orders&tab=notifications" data-view="orders">查看全部</a>
+                            </div>
+                            <div id="overview-notifications" class="notice-list"></div>
+                        </section>
+                    </div>
+                </section>
+
+                <section id="view-profile" class="view" hidden>
+                    <h2>企业资料</h2>
+                    <p class="view-desc">当前演示使用虚构画像，可手工编辑；联网企业发现保持不可用。</p>
+                    <section class="panel company-intelligence-panel" aria-labelledby="company-intelligence-title">
+                        <div class="panel-head">
+                            <div>
+                                <h3 id="company-intelligence-title">企业智能识别与画像初始化</h3>
+                                <p class="panel-note">联网候选不会直接入库，必须由你确认企业和画像草稿。</p>
+                            </div>
+                            <span id="company-intelligence-status" class="status-badge">未开始</span>
+                        </div>
+                        <form id="company-discovery-form" class="stack-form company-discovery-form">
+                            <div class="form-grid">
+                                <label>企业名称
+                                    <input id="company-discovery-name" maxlength="191" required>
+                                </label>
+                                <label>地区
+                                    <input id="company-discovery-region" maxlength="191" required placeholder="省/市/区县">
+                                </label>
+                                <label>官网（可选）
+                                    <input id="company-discovery-website" maxlength="2048" placeholder="https://example.com">
+                                </label>
+                                <label>统一社会信用代码（可选）
+                                    <input id="company-discovery-credit-code" maxlength="18">
+                                </label>
+                            </div>
+                            <button id="company-discovery-submit" type="submit">联网发现候选企业</button>
+                        </form>
+                        <div id="company-candidate-list" class="company-candidate-list" aria-live="polite"></div>
+                        <form id="company-draft-form" class="stack-form company-draft-form" hidden>
+                            <input id="company-draft-id" type="hidden">
+                            <div class="panel-head">
+                                <div>
+                                    <h4>AI 企业画像草稿</h4>
+                                    <p class="panel-note">请修改、删除或补充后确认。公开事实与 AI 推断会分别标记。</p>
+                                </div>
+                            </div>
+                            <div id="company-draft-fields" class="company-draft-fields"></div>
+                            <div id="company-draft-conflicts" class="company-draft-conflicts" aria-live="polite"></div>
+                            <div class="toolbar">
+                                <button id="company-draft-confirm" type="submit">确认画像并入库</button>
+                                <button id="company-intelligence-next" type="button" hidden>进入 AI 生成潜在问题</button>
+                            </div>
+                        </form>
+                    </section>
+                    <div class="completion-bar">
+                        <span id="profile-completeness">0%</span>
+                        <span id="profile-ai-ready"></span>
+                        <span id="profile-missing"></span>
+                    </div>
+                    <form id="profile-form" class="stack-form">
+                        <label>企业名称
+                            <input id="profile-company-name" name="company_name" maxlength="191" required>
+                        </label>
+                        <label>品牌
+                            <input id="profile-brand" name="brand" maxlength="100">
+                        </label>
+                        <label>行业
+                            <input id="profile-industry" name="industry" maxlength="100">
+                        </label>
+                        <label>产品/服务
+                            <textarea id="profile-products" name="products_services" rows="5"></textarea>
+                        </label>
+                        <label>官网
+                            <input id="profile-website" name="website" maxlength="2048" placeholder="https://example.com">
+                        </label>
+                        <label>企业简介
+                            <textarea id="profile-introduction" name="introduction" rows="8" maxlength="5000"></textarea>
+                        </label>
+                        <label>手机号
+                            <input id="profile-mobile" name="mobile" maxlength="32" autocomplete="tel">
+                        </label>
+                        <label>邮箱
+                            <input id="profile-email" name="email" maxlength="254" autocomplete="email">
+                        </label>
+                        <button id="profile-submit" type="submit">保存企业资料</button>
+                    </form>
+                </section>
+
+                <section id="view-answers" class="view" hidden>
+                    <h2>问题与答案</h2>
+                    <p class="view-desc">管理关键词与问题，审核 AI 生成问题，再进入 GEO 目标答案时间线</p>
+                    <h3 class="section-title">关键词/问题</h3>
+                    <section id="keyword-section">
+                        <div class="toolbar">
+                            <input id="keyword-search" maxlength="200" placeholder="搜索关键词">
+                            <select id="keyword-status">
+                                <option value="">全部状态</option>
+                                <option value="normal">启用</option>
+                                <option value="disabled">停用</option>
+                            </select>
+                            <button id="keyword-search-btn" type="button">搜索</button>
+                            <button id="keyword-new-btn" type="button">新增关键词</button>
+                            <button id="keyword-enable-btn" type="button">批量启用</button>
+                            <button id="keyword-disable-btn" type="button">批量停用</button>
+                        </div>
+                        <form id="keyword-form" class="inline-form" hidden>
+                            <input id="keyword-id" type="hidden">
+                            <label>关键词
+                                <input id="keyword-text" maxlength="191" required>
+                            </label>
+                            <button type="submit">保存</button>
+                            <button id="keyword-cancel-btn" type="button">取消</button>
+                        </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><span class="sr-only">选择</span></th>
+                                    <th>关键词</th>
+                                    <th>状态</th>
+                                    <th>更新时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keyword-list"></tbody>
+                        </table>
+                        <div id="keyword-pager" class="pager"></div>
+                    </section>
+
+                    <section id="question-section" hidden>
+                        <div class="toolbar">
+                            <strong id="selected-keyword"></strong>
+                            <input id="question-search" maxlength="200" placeholder="搜索问题">
+                            <select id="question-status">
+                                <option value="">全部状态</option>
+                                <option value="normal">启用</option>
+                                <option value="disabled">停用</option>
+                            </select>
+                            <button id="question-search-btn" type="button">搜索</button>
+                            <button id="question-new-btn" type="button">新增问题</button>
+                            <button id="question-ai-generate-btn" type="button">AI 生成潜在问题</button>
+                            <button id="question-enable-btn" type="button">批量启用</button>
+                            <button id="question-disable-btn" type="button">批量停用</button>
+                            <button id="question-geo-btn" type="button" class="btn-primary">进入 GEO 优化</button>
+                            <button id="question-back-btn" type="button">返回关键词</button>
+                        </div>
+                        <form id="question-form" class="inline-form" hidden>
+                            <input id="question-id" type="hidden">
+                            <label>问题
+                                <textarea id="question-text" maxlength="2000" rows="4" required></textarea>
+                            </label>
+                            <button type="submit">保存</button>
+                            <button id="question-cancel-btn" type="button">取消</button>
+                        </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><span class="sr-only">选择</span></th>
+                                    <th>问题</th>
+                                    <th>来源</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="question-list"></tbody>
+                        </table>
+                        <div id="question-pager" class="pager"></div>
+                    </section>
+                </section>
+
+                <section id="view-content" class="view" hidden>
+                    <h2>内容生产</h2>
+                    <p class="view-desc">知识素材、提示词、文章编辑与 AI 生成任务</p>
+                    <div class="tabbar" id="content-tabbar">
+                        <button type="button" data-content-tab="knowledge" class="tab active">知识素材</button>
+                        <button type="button" data-content-tab="prompts" class="tab">提示词</button>
+                        <button type="button" data-content-tab="articles" class="tab">文章编辑</button>
+                        <button type="button" data-content-tab="ai" class="tab">AI 生成任务</button>
+                    </div>
+
+                    <section id="content-knowledge-panel" class="tab-panel">
+                        <h3>知识素材</h3>
+                        <div class="toolbar">
+                            <input id="knowledge-search" maxlength="200" placeholder="搜索标题">
+                            <select id="knowledge-type">
+                                <option value="">全部类型</option>
+                                <option value="text">文本</option>
+                                <option value="image">图片</option>
+                                <option value="document">文档</option>
+                            </select>
+                            <select id="knowledge-status">
+                                <option value="">全部状态</option>
+                                <option value="normal">启用</option>
+                                <option value="disabled">停用</option>
+                            </select>
+                            <button id="knowledge-search-btn" type="button">搜索</button>
+                        </div>
+                        <div class="two-column">
+                            <form id="knowledge-text-form" class="stack-form">
+                                <h3>文本素材</h3>
+                                <input id="knowledge-id" type="hidden">
+                                <label>标题
+                                    <input id="knowledge-title" maxlength="191" required>
+                                </label>
+                                <label>正文
+                                    <textarea id="knowledge-content" rows="8" required></textarea>
+                                </label>
+                                <button type="submit">保存文本</button>
+                                <button id="knowledge-cancel-btn" type="button">取消编辑</button>
+                            </form>
+                            <form id="knowledge-file-form" class="stack-form">
+                                <h3>图片或文档</h3>
+                                <label>标题
+                                    <input id="knowledge-file-title" maxlength="191" required>
+                                </label>
+                                <label>文件
+                                    <input id="knowledge-file" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.docx" required>
+                                </label>
+                                <button type="submit">上传</button>
+                            </form>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>标题</th>
+                                    <th>类型</th>
+                                    <th>文件</th>
+                                    <th>大小</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="knowledge-list"></tbody>
+                        </table>
+                        <div id="knowledge-pager" class="pager"></div>
+                    </section>
+
+                    <section id="content-prompts-panel" class="tab-panel" hidden>
+                        <h3>提示词</h3>
+                        <div class="toolbar">
+                            <input id="prompt-search" maxlength="200" placeholder="搜索模板名称">
+                            <select id="prompt-status">
+                                <option value="">全部状态</option>
+                                <option value="normal">启用</option>
+                                <option value="disabled">停用</option>
+                            </select>
+                            <button id="prompt-search-btn" type="button">搜索</button>
+                        </div>
+                        <form id="prompt-form" class="stack-form">
+                            <input id="prompt-logical-key" type="hidden">
+                            <label>名称
+                                <input id="prompt-name" maxlength="191" required>
+                            </label>
+                            <label>场景
+                                <input id="prompt-scene" maxlength="64" value="article" required>
+                            </label>
+                            <label>指令正文
+                                <textarea id="prompt-content" rows="8" required></textarea>
+                            </label>
+                            <button type="submit">保存为新版本</button>
+                            <button id="prompt-cancel-btn" type="button">取消</button>
+                        </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>场景</th>
+                                    <th>当前版本</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prompt-list"></tbody>
+                        </table>
+                        <div id="prompt-pager" class="pager"></div>
+                        <section id="prompt-history" hidden>
+                            <h3>版本历史</h3>
+                            <ol id="prompt-history-list"></ol>
+                        </section>
+                    </section>
+
+                    <section id="content-articles-panel" class="tab-panel" hidden>
+                        <h3>文章编辑</h3>
+                        <div class="toolbar">
+                            <input id="article-search" maxlength="200" placeholder="搜索文章标题">
+                            <select id="article-status">
+                                <option value="">全部状态</option>
+                                <option value="draft">草稿</option>
+                                <option value="disabled">停用</option>
+                            </select>
+                            <button id="article-search-btn" type="button">搜索</button>
+                            <button id="article-new-btn" type="button">新建文章</button>
+                        </div>
+                        <form id="article-form" class="stack-form">
+                            <h3 id="article-form-heading">新建文章</h3>
+                            <input id="article-id" type="hidden">
+                            <input id="article-current-version-id" type="hidden">
+                            <label>关键词
+                                <select id="article-keyword" required></select>
+                            </label>
+                            <label>问题
+                                <select id="article-question" required></select>
+                            </label>
+                            <label>提示词版本
+                                <select id="article-prompt" required></select>
+                            </label>
+                            <label>知识素材
+                                <select id="article-knowledge" multiple size="5"></select>
+                            </label>
+                            <label>标题
+                                <input id="article-title" maxlength="191" required>
+                            </label>
+                            <label>正文
+                                <textarea id="article-content" rows="12" required></textarea>
+                            </label>
+                            <button id="article-submit" type="submit">保存为新版本</button>
+                            <button id="article-cancel-btn" type="button">取消编辑</button>
+                        </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>标题</th>
+                                    <th>状态</th>
+                                    <th>当前版本</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="article-list"></tbody>
+                        </table>
+                        <div id="article-pager" class="pager"></div>
+                        <section id="article-history" hidden>
+                            <h3>版本历史与预览</h3>
+                            <pre id="article-preview"></pre>
+                            <ol id="article-history-list"></ol>
+                        </section>
+                    </section>
+
+                    <section id="content-ai-panel" class="tab-panel" hidden>
+                        <h3>AI 生成任务</h3>
+                        <form id="ai-form" class="stack-form">
+                            <label>关键词
+                                <select id="ai-keyword" required></select>
+                            </label>
+                            <label>问题
+                                <select id="ai-question" required></select>
+                            </label>
+                            <label>提示词版本
+                                <select id="ai-prompt" required></select>
+                            </label>
+                            <label>文本知识素材
+                                <select id="ai-knowledge" multiple size="5"></select>
+                            </label>
+                            <label>GEO 目标答案版本（已确认，可选）
+                                <select id="ai-geo-answer">
+                                    <option value="">不使用目标答案</option>
+                                </select>
+                            </label>
+                            <button id="ai-submit" type="submit">加入生成队列</button>
+                        </form>
+                        <div id="ai-task-panel" class="task-panel" hidden>
+                            <strong id="ai-task-status"></strong>
+                            <p id="ai-task-geo-note" class="panel-note"></p>
+                            <p id="ai-task-error" class="error-text"></p>
+                            <div class="toolbar">
+                                <button id="ai-cancel-btn" type="button" hidden>取消排队</button>
+                                <button id="ai-retry-btn" type="button" hidden>重试</button>
+                                <button id="ai-open-article-btn" type="button" hidden>打开文章</button>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <section id="view-media" class="view" hidden>
+                    <h2>媒体与发布</h2><p class="panel-note">全部媒体和价格为虚构数据，发布由本地 Mock 服务模拟。</p>
+                    <p class="view-desc">按媒介集市信息架构筛选媒体目录，选择后进入订单确认</p>
+                    <h3 class="section-title">媒体筛选</h3>
+                    <div id="media-directory-tabs" class="media-directory-tabs" role="tablist" aria-label="资源目录">
+                        <button type="button" class="media-directory-tab active" data-directory="/media/type/1">新闻推广</button>
+                        <button type="button" class="media-directory-tab" data-directory="/media/type/3">小红书&自媒体</button>
+                        <button type="button" class="media-directory-tab" data-directory="/video">抖音短视频</button>
+                    </div>
+                    <div id="channel-status" class="channel-status"></div>
+                    <div id="media-catalog-status" class="catalog-status" role="status"></div>
+                    <div id="media-filter-matrix" class="media-filter-matrix" aria-label="媒体筛选矩阵">
+                        <div class="media-filter-row" data-filter="source_catalog">
+                            <span class="media-filter-label">资源类型</span>
+                            <div class="media-filter-tags"></div>
+                        </div>
+                        <div class="media-filter-row" data-filter="channel">
+                            <span class="media-filter-label">渠道</span>
+                            <div class="media-filter-tags"></div>
+                        </div>
+                        <div class="media-filter-row" data-filter="platform">
+                            <span class="media-filter-label">平台</span>
+                            <div class="media-filter-tags"></div>
+                            <button type="button" class="media-filter-more">更多</button>
+                        </div>
+                        <div class="media-filter-row" data-filter="region">
+                            <span class="media-filter-label">地区</span>
+                            <div class="media-filter-tags"></div>
+                            <button type="button" class="media-filter-more">更多</button>
+                        </div>
+                        <div class="media-filter-row" data-filter="media_category">
+                            <span class="media-filter-label">媒体分类</span>
+                            <div class="media-filter-tags"></div>
+                        </div>
+                        <div class="media-filter-row" data-filter="portal_type">
+                            <span class="media-filter-label">门户类型</span>
+                            <div class="media-filter-tags"></div>
+                            <button type="button" class="media-filter-more">更多</button>
+                        </div>
+                        <div class="media-filter-row" data-filter="channel_type">
+                            <span class="media-filter-label">频道类型</span>
+                            <div class="media-filter-tags"></div>
+                            <button type="button" class="media-filter-more">更多</button>
+                        </div>
+                        <div class="media-filter-row" data-filter="inclusion">
+                            <span class="media-filter-label">收录情况</span>
+                            <div class="media-filter-tags"></div>
+                        </div>
+                        <div class="media-filter-row" data-filter="draft_speed">
+                            <span class="media-filter-label">出稿速度</span>
+                            <div class="media-filter-tags"></div>
+                        </div>
+                        <div class="media-filter-row" data-filter="industry">
+                            <span class="media-filter-label">行业</span>
+                            <div class="media-filter-tags"></div>
+                            <button type="button" class="media-filter-more">更多</button>
+                        </div>
+                        <div class="media-filter-row" data-filter="price">
+                            <span class="media-filter-label">价格区间</span>
+                            <div class="media-filter-tags media-filter-price">
+                                <input id="media-price-min" type="number" min="0" step="0.01" placeholder="最低售价">
+                                <span class="media-price-sep">—</span>
+                                <input id="media-price-max" type="number" min="0" step="0.01" placeholder="最高售价">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="media-search-tabs" class="media-search-tabs">
+                        <button type="button" class="media-search-tab active" data-tab="search">媒体查找</button>
+                        <button type="button" class="media-search-tab" data-tab="favorite">收藏媒体</button>
+                    </div>
+                    <div class="media-search-row">
+                        <div class="media-search-main">
+                            <input id="media-search" maxlength="200" placeholder="媒体名称 / 关键词">
+                            <input id="media-remark" maxlength="200" placeholder="备注名称">
+                            <label class="media-exact-label" title="勾选后按媒体名称精确匹配">
+                                <input id="media-exact" type="checkbox"> 精确搜索
+                            </label>
+                            <button id="media-search-btn" type="button" class="btn-primary">搜索</button>
+                            <button id="media-reset-btn" type="button">重置</button>
+                            <span id="media-selected-count" class="media-selected-count">已选 0</span>
+                        </div>
+                        <div class="media-search-meta">
+                            <span id="media-filter-summary" class="media-filter-summary"></span>
+                            <select id="media-per-page" aria-label="每页数量">
+                                <option value="20">20 条/页</option>
+                                <option value="50">50 条/页</option>
+                                <option value="100">100 条/页</option>
+                            </select>
+                            <button id="media-export-btn" type="button">导出</button>
+                        </div>
+                    </div>
+                    <div class="media-table-wrap">
+                        <table id="media-table" class="media-table">
+                            <thead>
+                                <tr>
+                                    <th class="media-col-check"><span class="sr-only">选择</span></th>
+                                    <th>媒体名称</th>
+                                    <th>资源类型</th>
+                                    <th>渠道/平台</th>
+                                    <th>分类/行业</th>
+                                    <th>收录</th>
+                                    <th>出稿速度</th>
+                                    <th>PC权重</th>
+                                    <th>企业售价</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="media-list"></tbody>
+                        </table>
+                    </div>
+                    <div id="media-pager" class="pager"></div>
+                    <div id="media-order-bar" class="media-order-bar" hidden>
+                        <span id="media-order-summary"></span>
+                        <button id="media-to-order-btn" type="button" class="btn-primary">到订单确认</button>
+                    </div>
+                    <aside id="media-detail-drawer" class="media-drawer" hidden aria-label="媒体详情">
+                        <div class="media-drawer-head">
+                            <h3>媒体详情</h3>
+                            <button id="media-detail-close" type="button">关闭</button>
+                        </div>
+                        <div id="media-detail-content"></div>
+                    </aside>
+                </section>
+
+                <section id="view-orders" class="view" hidden>
+                    <h2>订单财务</h2><p class="panel-note">仅演示余额、冻结、扣款及解冻；不涉及真实支付或资金。</p>
+                    <p class="view-desc">确认报价、下单、跟踪发布，并查看钱包与通知</p>
+                    <div class="tabbar" id="orders-tabbar">
+                        <button type="button" data-orders-tab="orders" class="tab active">订单</button>
+                        <button type="button" data-orders-tab="wallet" class="tab">余额/流水</button>
+                        <button type="button" data-orders-tab="notifications" class="tab">通知</button>
+                    </div>
+
+                    <section id="orders-orders-panel" class="tab-panel">
+                        <section id="order-confirm" class="panel">
+                            <h3>订单确认</h3>
+                            <p id="order-confirm-selection"></p>
+                            <div class="toolbar">
+                                <select id="order-article"></select>
+                                <input id="order-original-link" maxlength="2048" placeholder="原文链接（可选）">
+                                <button id="order-preview-btn" type="button">生成报价</button>
+                            </div>
+                            <div id="order-preview" class="preview"></div>
+                            <button id="order-create-btn" type="button" hidden>确认下单</button>
+                        </section>
+                        <section id="order-list-panel">
+                            <div class="toolbar">
+                                <select id="order-status">
+                                    <option value="">全部状态</option>
+                                    <option value="funds_frozen">待提交</option>
+                                    <option value="queued">排队中</option>
+                                    <option value="submitted">已提交</option>
+                                    <option value="processing">处理中</option>
+                                    <option value="published">已发布</option>
+                                    <option value="rejected">退稿</option>
+                                    <option value="cancelled">已取消</option>
+                                    <option value="refunded">已退款</option>
+                                    <option value="partially_completed">部分完成</option>
+                                    <option value="manual_review">待人工</option>
+                                </select>
+                                <button id="order-filter-btn" type="button">筛选</button>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>媒体</th>
+                                        <th>金额</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-list"></tbody>
+                            </table>
+                            <div id="order-pager" class="pager"></div>
+                        </section>
+                        <section id="order-detail-panel" hidden>
+                            <button id="order-detail-back" type="button">返回列表</button>
+                            <div id="order-detail-content"></div>
+                        </section>
+                    </section>
+
+                    <section id="orders-wallet-panel" class="tab-panel" hidden>
+                        <h3>余额与流水</h3>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <strong id="wallet-available">--</strong>
+                                <span>可用余额</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong id="wallet-frozen">--</strong>
+                                <span>冻结余额</span>
+                            </div>
+                        </div>
+                        <div class="toolbar">
+                            <select id="ledger-type">
+                                <option value="">全部类型</option>
+                                <option value="manual_credit">人工增加</option>
+                                <option value="manual_debit">人工减少</option>
+                                <option value="freeze">冻结</option>
+                                <option value="capture">确认扣款</option>
+                                <option value="release">解冻</option>
+                                <option value="refund">退款</option>
+                            </select>
+                            <button id="ledger-filter-btn" type="button">筛选</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>业务</th>
+                                    <th>金额</th>
+                                    <th>可用变化</th>
+                                    <th>冻结变化</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledger-list"></tbody>
+                        </table>
+                        <div id="ledger-pager" class="pager"></div>
+                    </section>
+
+                    <section id="orders-notifications-panel" class="tab-panel" hidden>
+                        <h3>通知</h3>
+                        <div class="toolbar">
+                            <button id="notification-unread-btn" type="button">只看未读</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>标题</th>
+                                    <th>状态</th>
+                                    <th>时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="notification-list"></tbody>
+                        </table>
+                        <div id="notification-pager" class="pager"></div>
+                    </section>
+                </section>
+
+                <section id="view-geo" class="view" hidden>
+                    <h2>GEO 优化</h2>
+                    <p class="view-desc">目标答案 → 发布前 Baseline → 模拟发布 → 3/4/7 天复检 → 趋势与建议。示例使用模拟时间，不代表真实收录效果。</p>
+                    <div class="geo-stage" aria-label="GEO 阶段">
+                        <span class="stage-step" data-geo-stage="answer">目标答案</span>
+                        <span class="stage-step" data-geo-stage="baseline">发布前 Baseline</span>
+                        <span class="stage-step" data-geo-stage="publish">发布/订单</span>
+                        <span class="stage-step" data-geo-stage="recheck">复检计划</span>
+                        <span class="stage-step" data-geo-stage="trend">趋势与建议</span>
+                    </div>
+                    <div class="geo-selector toolbar">
+                        <select id="geo-keyword">
+                            <option value="">请选择关键词</option>
+                        </select>
+                        <select id="geo-question">
+                            <option value="">请选择问题</option>
+                        </select>
+                        <button id="geo-load-btn" type="button">载入时间线</button>
+                    </div>
+                    <p id="geo-empty-note" class="notice-empty">请选择问题后载入 GEO 时间线。</p>
+
+                    <section class="geo-card" data-geo-stage="answer">
+                        <div class="panel-head">
+                            <div>
+                                <h3>1. 目标答案</h3>
+                                <p class="panel-note">先生成并确认与问题、已确认企业画像一致的答案；文本知识素材为可选补充。</p>
+                            </div>
+                            <span id="geo-answer-status" class="status-badge">未生成</span>
+                        </div>
+                        <form id="geo-answer-form" class="stack-form">
+                            <label>文本知识素材（可选）
+                                <select id="geo-knowledge" multiple size="5"></select>
+                            </label>
+                            <button id="geo-answer-generate-btn" type="submit">生成目标答案</button>
+                        </form>
+                        <div id="geo-answer-list" class="geo-list" aria-live="polite"></div>
+                        <div id="geo-answer-detail" class="geo-detail"></div>
+                        <form id="geo-revise-form" class="stack-form" hidden>
+                            <input id="geo-revise-id" type="hidden">
+                            <h3>修改目标答案</h3>
+                            <label>答案正文
+                                <textarea id="geo-revise-answer" rows="8" required></textarea>
+                            </label>
+                            <label>推荐理由
+                                <textarea id="geo-revise-reason" rows="4"></textarea>
+                            </label>
+                            <p class="panel-note">修改将保留当前版本的证据事实，并由后端校验证据引用。</p>
+                            <button id="geo-revise-submit" type="submit">保存为新版本</button>
+                            <button id="geo-revise-cancel" type="button">取消</button>
+                        </form>
+                    </section>
+
+                    <section class="geo-card" data-geo-stage="baseline">
+                        <div class="panel-head">
+                            <div>
+                                <h3>2. 发布前 Baseline</h3>
+                                <p class="panel-note">必须在首次发布前完成，状态由后端判定。</p>
+                            </div>
+                            <span id="geo-baseline-status" class="status-badge">未检测</span>
+                        </div>
+                        <form id="geo-baseline-form" class="stack-form">
+                            <label>目标 AI 平台
+                                <input id="geo-baseline-platform" maxlength="64" placeholder="如 豆包/Bing" required>
+                            </label>
+                            <label>模型名称
+                                <input id="geo-baseline-model" maxlength="191" placeholder="如 Doubao-Seed-2.0-pro" required>
+                            </label>
+                            <button id="geo-baseline-btn" type="submit">执行发布前 Baseline</button>
+                        </form>
+                        <div id="geo-baseline-card" class="geo-detail"></div>
+                    </section>
+
+                    <section class="geo-card" data-geo-stage="publish">
+                        <div class="panel-head">
+                            <div>
+                                <h3>3. 发布/订单</h3>
+                                <p class="panel-note">在媒体与发布中完成模拟订单；首次模拟发布后才会解锁复检计划。</p>
+                            </div>
+                        </div>
+                        <div class="toolbar">
+                            <button id="geo-to-media-btn" type="button">前往媒体与发布</button>
+                            <button id="geo-to-orders-btn" type="button">前往订单财务</button>
+                        </div>
+                    </section>
+
+                    <section class="geo-card" data-geo-stage="recheck">
+                        <div class="panel-head">
+                            <div>
+                                <h3>4. 3/4/7 天复检</h3>
+                                <p class="panel-note">计划由后端校验 Baseline 与首次发布时间，不产生费用。</p>
+                            </div>
+                            <span id="geo-plan-status" class="status-badge">未创建</span>
+                        </div>
+                        <form id="geo-plan-form" class="stack-form">
+                            <label>复检间隔
+                                <select id="geo-plan-interval">
+                                    <option value="3">3 天</option>
+                                    <option value="4">4 天</option>
+                                    <option value="7" selected>7 天</option>
+                                </select>
+                            </label>
+                            <button id="geo-plan-create-btn" type="submit">创建复检计划</button>
+                        </form>
+                        <div id="geo-plan-list" class="geo-list" aria-live="polite"></div>
+                    </section>
+
+                    <section class="geo-card" data-geo-stage="trend">
+                        <div class="panel-head">
+                            <div>
+                                <h3>5. 趋势与建议</h3>
+                                <p class="panel-note">只展示后端返回的三级状态与建议，不自行判定收录。</p>
+                            </div>
+                        </div>
+                        <div id="geo-visibility-history-wrap" class="media-table-wrap">
+                            <table class="geo-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>检测时间</th>
+                                        <th>类型</th>
+                                        <th>平台</th>
+                                        <th>模型</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="geo-visibility-history"></tbody>
+                            </table>
+                        </div>
+                        <div id="geo-visibility-detail" class="geo-detail"></div>
+                        <div id="geo-trend-card" class="geo-detail"></div>
+                        <div id="geo-suggestion-card" class="geo-detail"></div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </section>
+</main>
+<script src="/assets/js/frontend/enterprise-order-polling.js?v=20260825v1" defer></script>
+<script src="/assets/js/frontend/enterprise.js?v=20260825v11" defer></script>
+</body>
+</html>

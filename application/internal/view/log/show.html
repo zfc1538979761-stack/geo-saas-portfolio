@@ -1,0 +1,8 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">{$log.name}</div>
+  <pre style="max-height:70vh;overflow:auto;white-space:pre-wrap;word-break:break-all">
+{volist name="log.lines" id="line"}{$line}
+{/volist}</pre>
+</div>
+{include file="common/footer" /}

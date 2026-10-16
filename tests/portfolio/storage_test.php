@@ -1,0 +1,23 @@
+<?php
+require __DIR__ . '/bootstrap.php';
+use app\common\portfolio\PortfolioStorageAdapter;
+use app\common\tenant\TenantContext;
+use app\common\content\foundation\ValidatedUpload;
+use app\common\content\storage\StoredObject;
+check(class_exists(PortfolioStorageAdapter::class), 'Portfolio storage implemented');
+$root=PORTFOLIO_ROOT.'runtime/storage-test-'.bin2hex(random_bytes(5));
+$ctx=TenantContext::enterprise(1,1);
+$other=TenantContext::enterprise(2,2);
+$adapter=new PortfolioStorageAdapter('testing',$root);
+$fixture=PORTFOLIO_ROOT.'runtime/upload-test.txt';
+file_put_contents($fixture,'synthetic fixture');
+$upload=new ValidatedUpload($fixture,'document','demo.txt','demo.txt','txt','text/plain','text/plain',17,hash_file('sha256',$fixture));
+$object=$adapter->upload($upload,$ctx); unset($adapter);
+$second=new PortfolioStorageAdapter('testing',$root);
+check($second->read($object,$ctx)->contents()==='synthetic fixture','object persists across adapter lifetimes');
+rejects(fn()=>$second->read($object,$other),'cross-tenant read rejected');
+$bad=new StoredObject('media_market','../escape','tenants/1/x','demo',1,'text/plain',1,'x');
+rejects(fn()=>$second->read($bad,$ctx),'path traversal rejected');
+rejects(fn()=>new PortfolioStorageAdapter('production',$root),'production storage refused');
+$second->delete($object,$ctx);
+rejects(fn()=>$second->read($object,$ctx),'explicit deletion removes object');

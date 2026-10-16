@@ -1,0 +1,17 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">关键审计日志</div>
+  <table class="table table-bordered">
+    <thead><tr><th>ID</th><th>操作者</th><th>企业</th><th>动作</th><th>对象</th><th>IP</th><th>详情</th><th>时间</th></tr></thead>
+    <tbody>
+    {volist name="result.items" id="log"}
+      <tr>
+        <td>{$log.id}</td><td>{$log.actor_type}:{$log.actor_id}</td><td>{$log.company_name|default='-'}</td>
+        <td>{$log.action}</td><td>{$log.target_type}:{$log.target_id|default='-'}</td><td>{$log.ip_address}</td>
+        <td><code>{$log.detail|json_encode|default='{}'}</code></td><td>{$log.created_at}</td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}

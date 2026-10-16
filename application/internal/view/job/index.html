@@ -1,0 +1,25 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">失败任务</div>
+  <table class="table table-bordered">
+    <thead><tr><th>ID</th><th>企业</th><th>类型</th><th>状态</th><th>尝试</th><th>错误</th><th>更新时间</th><th>操作</th></tr></thead>
+    <tbody>
+    {volist name="result.items" id="job"}
+      <tr>
+        <td>{$job.id}</td><td>{$job.company_id|default='-'}</td><td>{$job.job_type}</td><td>{$job.status}</td>
+        <td>{$job.attempts}/{$job.max_attempts}</td><td>{$job.last_error_code} {$job.last_error_message}</td><td>{$job.updated_at}</td>
+        <td>
+          <form method="post" action="/internal/job/replay" onsubmit="return confirm('确认重放该失败任务？')">
+            <input type="hidden" name="confirm" value="1">
+            {:token()}
+            <input type="hidden" name="job_id" value="{$job.id}">
+            <input class="form-control" type="text" name="reason" placeholder="原因" required>
+            <button class="btn btn-danger btn-sm" type="submit">重放</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}

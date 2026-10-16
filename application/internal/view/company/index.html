@@ -1,0 +1,37 @@
+{include file="common/header" /}
+<div class="panel panel-default">
+  <div class="panel-heading">企业查询</div>
+  <div class="panel-body">
+    <form class="form-inline" method="get" action="/internal/company/index">
+      <div class="form-group"><input class="form-control" name="search" value="{$search}" placeholder="企业名称"></div>
+      <button class="btn btn-primary" type="submit">查询</button>
+    </form>
+  </div>
+  <table class="table table-bordered">
+    <thead><tr><th>ID</th><th>名称</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+    <tbody>
+    {volist name="result.items" id="company"}
+      <tr>
+        <td>{$company.id}</td>
+        <td>{$company.name}</td>
+        <td>{$company.status}</td>
+        <td>{$company.createtime}</td>
+        <td>
+          <form method="post" action="/internal/company/status" class="form-inline" onsubmit="return confirm('确认变更企业状态？')">
+            <input type="hidden" name="confirm" value="1">
+            {:token()}
+            <input type="hidden" name="company_id" value="{$company.id}">
+            <select class="form-control" name="status">
+              <option value="normal">normal</option>
+              <option value="disabled">disabled</option>
+            </select>
+            <input class="form-control" type="text" name="reason" placeholder="原因" required>
+            <button class="btn btn-warning btn-sm" type="submit">变更</button>
+          </form>
+        </td>
+      </tr>
+    {/volist}
+    </tbody>
+  </table>
+</div>
+{include file="common/footer" /}
