@@ -95,6 +95,8 @@ flowchart LR
 要求：PHP 8.0.2 及 bcmath/curl/mbstring/pdo_mysql/redis/openssl/fileinfo 等扩展、Composer、Node/npm、MySQL 8 和本机 Redis。Redis 14 号库必须专用于本演示，初始化不会清空 Redis。
 
 ```powershell
+git clone https://github.com/zfc1538979761-stack/geo-saas-portfolio.git
+cd geo-saas-portfolio
 composer install --no-interaction --prefer-dist --no-scripts
 npm ci --ignore-scripts --no-audit --no-fund
 npm run build
